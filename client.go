@@ -40,12 +40,6 @@ func withBody(body any) requestOption {
 	}
 }
 
-func withContentType(contentType string) requestOption {
-	return func(args *requestOptions) {
-		args.header.Set("Content-Type", contentType)
-	}
-}
-
 func (c *Client) newRequest(ctx context.Context, method, url string, setters ...requestOption) (*http.Request, error) {
 	args := &requestOptions{
 		body:   nil,
