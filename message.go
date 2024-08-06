@@ -34,7 +34,7 @@ type ContentBlock struct {
 	Text string `json:"text,omitempty"`
 
 	// For Image type
-	Source ImageSource `json:"source,omitempty"`
+	Source *ImageSource `json:"source,omitempty"`
 
 	// For Tool Use type
 	Id    string                 `json:"id,omitempty"`
@@ -42,17 +42,19 @@ type ContentBlock struct {
 	Input map[string]interface{} `json:"input,omitempty"`
 
 	// For Tool Result type
-	ToolUseId         string `json:"tool_use_id,omitempty"`
-	IsError           bool   `json:"is_error,omitempty"`
-	ToolResultContent []struct {
-		Type string `json:"type"`
+	ToolUseId         string             `json:"tool_use_id,omitempty"`
+	IsError           bool               `json:"is_error,omitempty"`
+	ToolResultContent *ToolResultContent `json:"content,omitempty"`
+}
 
-		// For Text type
-		Text string `json:"text,omitempty"`
+type ToolResultContent struct {
+	Type string `json:"type"`
 
-		// For Image type
-		Source ImageSource `json:"source,omitempty"`
-	} `json:"content,omitempty"`
+	// For Text type
+	Text string `json:"text,omitempty"`
+
+	// For Image type
+	Source *ImageSource `json:"source,omitempty"`
 }
 
 const ImageSourceType = "base64"
@@ -135,13 +137,13 @@ type MessageRequest struct {
 	Messages  []InputMessage `json:"messages"`
 	MaxTokens int            `json:"max_tokens"`
 
-	Temperature   int                    `json:"temperature,omitempty"`
-	StopSequences []string               `json:"stop_sequences,omitempty"`
-	Metadata      MessageRequestMetadata `json:"metadata,omitempty"`
-	Stream        bool                   `json:"stream,omitempty"`
-	System        string                 `json:"system,omitempty"`
-	TopK          int                    `json:"top_k,omitempty"`
-	TopP          int                    `json:"top_p,omitempty"`
+	Temperature   int                     `json:"temperature,omitempty"`
+	StopSequences []string                `json:"stop_sequences,omitempty"`
+	Metadata      *MessageRequestMetadata `json:"metadata,omitempty"`
+	Stream        bool                    `json:"stream,omitempty"`
+	System        string                  `json:"system,omitempty"`
+	TopK          int                     `json:"top_k,omitempty"`
+	TopP          int                     `json:"top_p,omitempty"`
 
 	Tools      []Tool      `json:"tools,omitempty"`
 	ToolChoice *ToolChoice `json:"tool_choice,omitempty"`
