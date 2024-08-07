@@ -34,7 +34,7 @@ type ContentBlock struct {
 	Text string `json:"text,omitempty"`
 
 	// For Image type
-	Source *ImageSource `json:"source,omitempty"`
+	Source ImageSource `json:"source,omitempty"`
 
 	// For Tool Use type
 	Id    string                 `json:"id,omitempty"`
@@ -42,9 +42,30 @@ type ContentBlock struct {
 	Input map[string]interface{} `json:"input,omitempty"`
 
 	// For Tool Result type
-	ToolUseId         string             `json:"tool_use_id,omitempty"`
-	IsError           bool               `json:"is_error,omitempty"`
-	ToolResultContent *ToolResultContent `json:"content,omitempty"`
+	ToolUseId         string            `json:"tool_use_id,omitempty"`
+	IsError           bool              `json:"is_error,omitempty"`
+	ToolResultContent ToolResultContent `json:"content,omitempty"`
+}
+
+func (cb ContentBlock) MarshalJSON() ([]byte, error) {
+	type alias ContentBlock
+	temp := struct {
+		alias
+		Source            *ImageSource       `json:"source,omitempty"`
+		ToolResultContent *ToolResultContent `json:"content,omitempty"`
+	}{
+		alias: alias(cb),
+	}
+
+	if cb.Source != (ImageSource{}) {
+		temp.Source = &cb.Source
+	}
+
+	if cb.ToolResultContent != (ToolResultContent{}) {
+		temp.ToolResultContent = &cb.ToolResultContent
+	}
+
+	return json.Marshal(temp)
 }
 
 type ToolResultContent struct {
@@ -54,7 +75,23 @@ type ToolResultContent struct {
 	Text string `json:"text,omitempty"`
 
 	// For Image type
-	Source *ImageSource `json:"source,omitempty"`
+	Source ImageSource `json:"source,omitempty"`
+}
+
+func (trs ToolResultContent) MarshalJSON() ([]byte, error) {
+	type alias ToolResultContent
+	temp := struct {
+		alias
+		Source *ImageSource `json:"source,omitempty"`
+	}{
+		alias: alias(trs),
+	}
+
+	if trs.Source != (ImageSource{}) {
+		temp.Source = &trs.Source
+	}
+
+	return json.Marshal(temp)
 }
 
 const ImageSourceType = "base64"
