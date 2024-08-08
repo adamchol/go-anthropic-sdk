@@ -1,4 +1,5 @@
 # Go Anthropic SDK
+[![Go Reference](https://pkg.go.dev/badge/github.com/adamchol/go-anthropic-sdk.svg)](https://pkg.go.dev/github.com/adamchol/go-anthropic-sdk)
 
 This library provides unofficial Go clients for [Anthropic API](https://www.anthropic.com/api).
 
