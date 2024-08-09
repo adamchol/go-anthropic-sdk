@@ -15,6 +15,7 @@ const (
 	initial     APIVersion = "2023-01-01"
 )
 
+// ClientConfig is a configuration of client
 type ClientConfig struct {
 	authToken string
 
@@ -24,6 +25,8 @@ type ClientConfig struct {
 	HTTPClient *http.Client
 }
 
+// DefaultConfig creates a standard configuration with api key.
+// This method is called when creating new client with [NewClient]
 func DefaultConfig(apiKey string) ClientConfig {
 	return ClientConfig{
 		authToken:  apiKey,

@@ -27,6 +27,7 @@ const (
 	ToolResultContentObjectType = "tool_result"
 )
 
+// ContentBlock is used to provide the [InputMessage] with multiple input or input other than a simple string
 type ContentBlock struct {
 	Type string `json:"type"`
 
@@ -108,6 +109,10 @@ type ImageSource struct {
 	Data      string `json:"data"`
 }
 
+// InputMessage stores content of message request. When creating new message with [Client.CreateMessage], Role field is always equal to "user".
+// Content field is used to pass just one string of content. ContentBlocks are used to pass multiple input content and/or content other than a string, like an image.
+//
+// Note that Content and ContentBlocks fields cannot be used simultaneously in one InputMessage.
 type InputMessage struct {
 	Role          string `json:"role"`
 	Content       string `json:"content"`
@@ -169,6 +174,7 @@ type MessageRequestMetadata struct {
 	UserId string `json:"user_id,omitempty"`
 }
 
+// MessageRequest represents a request structure for Anthropic Messages API
 type MessageRequest struct {
 	Model     string         `json:"model"`
 	Messages  []InputMessage `json:"messages"`
@@ -235,6 +241,7 @@ type Usage struct {
 	OutputTokens int `json:"output_tokens"`
 }
 
+// CreateMessage - API call to Anthropic Messages API to create a message completion
 func (c *Client) CreateMessage(ctx context.Context, request MessageRequest) (response MessageResponse, err error) {
 	if request.Stream {
 		err = ErrChatCompletionStreamNotSupported
