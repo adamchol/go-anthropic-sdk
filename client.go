@@ -10,12 +10,14 @@ import (
 	utils "github.com/adamchol/go-anthropic-sdk/internal"
 )
 
+// Anthropic API Client for making requests
 type Client struct {
 	config ClientConfig
 
 	requestBuilder utils.RequestBuilder
 }
 
+// NewClientWithConfig creates an Anthropic API client with specified configuration
 func NewClientWithConfig(config ClientConfig) *Client {
 	return &Client{
 		config:         config,
@@ -23,6 +25,7 @@ func NewClientWithConfig(config ClientConfig) *Client {
 	}
 }
 
+// NewClient creates an Anthropic API client with API key
 func NewClient(apiKey string) *Client {
 	return NewClientWithConfig(DefaultConfig(apiKey))
 }
