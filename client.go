@@ -1,6 +1,7 @@
 package anthropic
 
 import (
+	"bufio"
 	"context"
 	"encoding/json"
 	"errors"
@@ -73,6 +74,23 @@ func (c *Client) sendRequest(request *http.Request, v any) error {
 	}
 
 	return json.NewDecoder(resp.Body).Decode(v)
+}
+
+func (c *Client) sendStreamRequest(req *http.Request) (*streamReader, error) {
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Accept", "text/event-stream")
+	req.Header.Set("Cache-Control", "no-cache")
+	req.Header.Set("Connection", "keep-alive")
+
+	resp, err := c.config.HTTPClient.Do(req)
+	if err != nil {
+		return new(streamReader), err
+	}
+
+	return &streamReader{
+		response: resp,
+		reader:   bufio.NewReader(resp.Body),
+	}, nil
 }
 
 func (c *Client) setCommonHeaders(req *http.Request) {

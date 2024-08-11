@@ -38,7 +38,7 @@ type ContentBlock struct {
 	Source ImageSource `json:"source,omitempty"`
 
 	// For Tool Use type
-	Id    string                 `json:"id,omitempty"`
+	ID    string                 `json:"id,omitempty"`
 	Name  string                 `json:"name,omitempty"`
 	Input map[string]interface{} `json:"input,omitempty"`
 
