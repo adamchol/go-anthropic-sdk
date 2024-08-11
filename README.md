@@ -104,3 +104,61 @@ func main() {
 ```
 
 </details>
+
+<details>
+<summary>Streaming messages</summary>
+
+```go
+package main
+
+import (
+	"context"
+	"encoding/base64"
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/adamchol/go-anthropic-sdk"
+)
+
+func main() {
+	client := anthropic.NewClient("your-token")
+
+	stream, err := client.CreateMessageStream(context.Background(), anthropic.MessageRequest{
+		Model:     anthropic.Claude35SonnetModel,
+		MaxTokens: 1000,
+		Messages: []anthropic.InputMessage{
+			{
+				Role:    anthropic.MessageRoleUser,
+				Content: "Hello, how are you doing today?",
+			},
+		},
+	})
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	defer stream.Close()
+
+	for {
+		delta, err := stream.Recv()
+
+		if err == io.EOF {
+			fmt.Println()
+			fmt.Println("Done")
+			return
+		}
+
+		if err != nil {
+			fmt.Printf("Stream error: %s", err)
+			return
+		}
+
+		fmt.Print(delta.Text)
+	}
+}
+```
+
+</details>
