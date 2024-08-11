@@ -65,7 +65,7 @@ func TestMessageWithToolUseOmitEmpty(t *testing.T) {
 					ContentBlocks: []ContentBlock{
 						{
 							Type: "tool_use",
-							Id:   "tool_id",
+							ID:   "tool_id",
 							Name: "tool_name",
 							Input: map[string]interface{}{
 								"key": "value",

@@ -16,7 +16,7 @@ const messagesSuffix = "/messages"
 
 var (
 	ErrContentFieldsMisused             = errors.New("can't use both Content and ContentBlocks properties simultaneously")
-	ErrChatCompletionStreamNotSupported = errors.New("streaming is not supported with this method, please use CreateChatCompletionStream") //nolint:lll
+	ErrChatCompletionStreamNotSupported = errors.New("streaming is not supported with this method, please use CreateMessageStream") //nolint:lll
 	ErrModelNotAvailable                = errors.New("this model is not available for Anthropic Messages API")
 )
 
@@ -38,7 +38,7 @@ type ContentBlock struct {
 	Source ImageSource `json:"source,omitempty"`
 
 	// For Tool Use type
-	Id    string                 `json:"id,omitempty"`
+	ID    string                 `json:"id,omitempty"`
 	Name  string                 `json:"name,omitempty"`
 	Input map[string]interface{} `json:"input,omitempty"`
 
